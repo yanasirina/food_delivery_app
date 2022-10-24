@@ -11,3 +11,10 @@ class UserData(models.Model):
     street = models.CharField(verbose_name='Улица', max_length=50)
     house = models.IntegerField(verbose_name='Номер дома')
     apartment = models.IntegerField(verbose_name='Номер квартиры', blank=True, null=True)
+
+    class Meta:
+        verbose_name = "Информация о пользователе"
+        verbose_name_plural = "Информация о пользователях"
+
+    def __str__(self):
+        return str(self.user)

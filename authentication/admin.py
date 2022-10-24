@@ -1,3 +1,8 @@
 from django.contrib import admin
+from . import models
 
-# Register your models here.
+
+@admin.register(models.UserData)
+class UserData(admin.ModelAdmin):
+    list_display = ('user', 'phone_number', 'city')
+    autocomplete_fields = ('user', )
