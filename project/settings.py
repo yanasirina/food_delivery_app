@@ -27,8 +27,10 @@ INSTALLED_APPS = [
     "django.contrib.messages",
     "django.contrib.staticfiles",
 
+    "rest_framework",
+
     "core.apps.CoreConfig",
-    "authentication.apps.AuthenticationConfig"
+    "authentication.apps.AuthenticationConfig",
     "bot.apps.BotConfig"
 ]
 
