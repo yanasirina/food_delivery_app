@@ -1,5 +1,6 @@
 # import django_filters
-from rest_framework.generics import GenericAPIView
+from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView, ListAPIView
+from rest_framework.permissions import IsAuthenticated,  IsAdminUser
 from rest_framework.response import Response
 from rest_framework.authtoken.models import Token
 
@@ -33,3 +34,21 @@ class LoginUser(GenericAPIView):
         token = Token.objects.get(user__username=serializer.validated_data['username'])
         return Response({'token': token.key})
         pass
+
+
+class UserList(ListAPIView):
+    queryset = models.UserData.objects.all()
+    serializer_class = serializers.UserDataSerializer
+    permission_classes = (IsAdminUser, )
+
+
+class UpdateUser(RetrieveUpdateAPIView):
+    queryset = models.UserData.objects.all()
+    serializer_class = serializers.UserDataSerializer
+    permission_classes = (IsAuthenticated, )
+
+    def get_object(self):
+        queryset = self.filter_queryset(self.get_queryset())
+        obj = queryset.get(pk=self.request.user.pk)
+        self.check_object_permissions(self.request, obj)
+        return obj
