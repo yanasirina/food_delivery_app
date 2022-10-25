@@ -18,6 +18,7 @@ class RegisterUser(GenericAPIView):
             username=serializer.validated_data['username'],
             password=serializer.validated_data['password'],
         )
+        models.UserData.objects.create(user=user)
         token = Token.objects.create(user=user)
         return Response({'token': token.key}, status=201)
 
