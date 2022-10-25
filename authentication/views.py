@@ -38,7 +38,7 @@ class LoginUser(GenericAPIView):
 
 class UserList(ListAPIView):
     queryset = models.UserData.objects.all()
-    serializer_class = serializers.UserDataSerializer
+    serializer_class = serializers.AdminUserDataSerializer
     permission_classes = (IsAdminUser, )
 
 
