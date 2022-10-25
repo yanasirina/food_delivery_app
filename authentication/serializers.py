@@ -30,4 +30,7 @@ class UserDataSerializer(serializers.ModelSerializer):
         exclude = ('user', )
 
 
-
+class AdminUserDataSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = UserData
+        fields = '__all__'
