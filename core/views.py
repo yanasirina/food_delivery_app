@@ -2,8 +2,8 @@ from django.shortcuts import render
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from rest_framework import mixins, generics, viewsets
-from rest_framework.permissions import IsAdminUser
+from rest_framework import mixins, viewsets
+from rest_framework.permissions import IsAdminUser, IsAuthenticated
 
 from . import serializers
 from . import models
@@ -59,3 +59,43 @@ class AdminItemViewSet(ModelViewSet):
         serializer = serializers.ItemSerializer(instance=item)
         return Response(serializer.data)
 
+
+class AdminOrderViewSet(ReadOnlyModelViewSet):
+    permission_classes = (IsAdminUser, )
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderAdminSerializer
+
+
+class OrderViewSet(ModelViewSet):
+    permission_classes = (IsAuthenticated, )
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderSerializer
+
+    def get_queryset(self):
+        return models.Order.objects.filter(user=self.request.user, is_ordered=False)
+
+    def perform_create(self, serializer):
+        serializer.validated_data['user'] = self.request.user
+        super().perform_create(serializer)
+
+    """Шаблон для дальнейшего добавления в бот"""
+    # @action(detail=True, methods=['patch'])
+    # def to_order(self, request, pk):
+    #     order = self.get_object()
+    #     order.is_ordered = True
+    #     order.save(update_fields=['is_ordered'])
+    #     serializer = serializers.ItemSerializer(instance=order)
+    #     return Response(serializer.data)
+
+
+class FinishedOrderViewSet(ReadOnlyModelViewSet):
+    permission_classes = (IsAuthenticated, )
+    queryset = models.Order.objects.all()
+    serializer_class = serializers.OrderSerializer
+
+    def get_queryset(self):
+        return models.Order.objects.filter(user=self.request.user, is_ordered=True)
+
+    def perform_create(self, serializer):
+        serializer.validated_data['user'] = self.request.user
+        super().perform_create(serializer)

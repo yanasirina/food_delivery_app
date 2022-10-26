@@ -17,3 +17,16 @@ class ItemSerializer(serializers.ModelSerializer):
 
 class ItemGetSerializer(ItemSerializer):
     category = CategorySerializer()
+
+
+class OrderSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        exclude = ('user', 'is_ordered', 'is_delivered')
+
+
+class OrderAdminSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = models.Order
+        fields = '__all__'
+
