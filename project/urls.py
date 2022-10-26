@@ -6,6 +6,7 @@ from django.conf.urls.static import static
 
 import authentication.urls
 import core.urls
+import core.order_urls
 
 
 schema_view = get_swagger_view(title='API')
@@ -13,8 +14,9 @@ schema_view = get_swagger_view(title='API')
 urlpatterns = [
     path("", schema_view),
     path("admin/", admin.site.urls),
+    path("core/", include(core.urls)),
     path("auth/", include(authentication.urls)),
-    path("orders/", include(core.urls)),
+    path("orders/", include(core.order_urls)),
 ]
 
 if settings.DEBUG:
