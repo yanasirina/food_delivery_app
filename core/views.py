@@ -1,7 +1,6 @@
 import requests
 from decouple import config
 
-from django.shortcuts import render
 from rest_framework.viewsets import ReadOnlyModelViewSet, ModelViewSet
 from rest_framework.decorators import action
 from rest_framework.response import Response

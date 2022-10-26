@@ -1,4 +1,3 @@
-# import django_filters
 from rest_framework.generics import GenericAPIView, RetrieveUpdateAPIView, ListAPIView
 from rest_framework.permissions import IsAuthenticated,  IsAdminUser
 from rest_framework.response import Response

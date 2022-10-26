@@ -1,6 +1,4 @@
 from django.core.management.base import BaseCommand
-from urllib.parse import urljoin
-from django.conf import settings
 import requests
 import telebot
 from decouple import config
