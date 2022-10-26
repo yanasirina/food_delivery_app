@@ -10,8 +10,10 @@ class Category(admin.ModelAdmin):
 
 @admin.register(models.Item)
 class Item(admin.ModelAdmin):
-    list_display = ('name', )
+    list_display = ('name', 'in_stock')
     search_fields = ('name', )
+    list_filter = ('in_stock', )
+    list_editable = ('in_stock',)
     autocomplete_fields = ('category', )
 
 
