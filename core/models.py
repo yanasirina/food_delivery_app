@@ -20,6 +20,7 @@ class Item(models.Model):
     category = models.ForeignKey(Category, verbose_name='Категория', on_delete=models.PROTECT)
     name = models.CharField(verbose_name='Название товара', max_length=255)
     description = models.TextField(verbose_name='Описание товара', blank=True, null=True)
+    in_stock = models.BooleanField(verbose_name='В наличии', default=True)
 
     class Meta:
         verbose_name = "Товар"
