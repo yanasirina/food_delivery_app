@@ -9,7 +9,7 @@ from . import serializers
 from . import models
 
 
-class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
+class CategoryViewSet(ReadOnlyModelViewSet):
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
 
@@ -21,7 +21,8 @@ class CategoryViewSet(mixins.ListModelMixin, viewsets.GenericViewSet):
         return Response({'Товары': items})
 
 
-class UpdateDeleteCategory(generics.RetrieveUpdateDestroyAPIView):
+class AdminCategoryViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                           mixins.DestroyModelMixin, viewsets.GenericViewSet):
     permission_classes = (IsAdminUser, )
     queryset = models.Category.objects.all()
     serializer_class = serializers.CategorySerializer
