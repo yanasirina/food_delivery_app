@@ -30,13 +30,12 @@ class Command(BaseCommand):
             telegram_id = message.chat.id
             try:
                 courier = Courier.objects.get(telegram_id=telegram_id)
-                print(courier)
                 if not courier.is_able:
                     courier.is_able = True
                     courier.is_waiting_from = datetime.now()
                     courier.save(update_fields=['is_able', 'is_waiting_from'])
                     bot.reply_to(message=message, text=f'Хорошей тебе работы!\n'
-                                                   f'Когда устанешь напиши /end_day')
+                                                       f'Когда устанешь напиши /end_day')
                 else:
                     bot.reply_to(message=message, text='Ты уже работаешь')
             except Exception:
@@ -48,21 +47,40 @@ class Command(BaseCommand):
             telegram_id = message.chat.id
             try:
                 courier = Courier.objects.get(telegram_id=telegram_id)
-                if courier.is_able:
+                if courier.is_able and not courier.order:
                     courier.is_able = False
                     courier.is_waiting_from = None
                     courier.save(update_fields=['is_able', 'is_waiting_from'])
                     bot.reply_to(message=message, text=f'Хорошей тебе отдыха!\n'
                                                        f'Когда будешь готов к работе напиши /start_day')
-                else:
+                elif not courier.is_able:
                     bot.reply_to(message=message, text='Ты уже отдыхаешь')
+                else:
+                    bot.reply_to(message=message, text='Сначала заверши заказ')
             except Exception:
                 bot.reply_to(message=message, text='Что-то пошло не так. Скорее всего, менеджер '
                                                    'не успел зарегистрировать тебя в базе данных')
 
         @bot.message_handler(commands=['end_order'])
         def end_order(message):
-            pass
+            telegram_id = message.chat.id
+            try:
+                courier = Courier.objects.get(telegram_id=telegram_id)
+                if courier.order:
+                    order = courier.order
+                    order.is_delivered = True
+                    order.save(update_fields=['is_delivered'])
+                    courier.is_able = True
+                    courier.is_waiting_from = datetime.now()
+                    courier.order = None
+                    courier.save(update_fields=['is_able', 'is_waiting_from', 'order'])
+                    bot.reply_to(message=message, text=f'Спасибо за работу!\n'
+                                                       f'Скоро я отправлю тебе новый заказ')
+                else:
+                    bot.reply_to(message=message, text='Ты уже доставил все заказы')
+            except Exception:
+                bot.reply_to(message=message, text='Что-то пошло не так. Скорее всего, менеджер '
+                                                   'не успел зарегистрировать тебя в базе данных')
 
         while True:
             try:

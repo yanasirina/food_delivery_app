@@ -107,7 +107,8 @@ class OrderViewSet(ModelViewSet):
 
                 courier.is_able = False
                 courier.is_waiting_from = None
-                courier.save(update_fields=['is_able', 'is_waiting_from'])
+                courier.order = order
+                courier.save(update_fields=['is_able', 'is_waiting_from', 'order'])
             else:
                 return Response({'error': 'Вы указали неполную информацию о себе'})
             return Response({'status': 'Мы приступили к сборке вашего заказа'})
