@@ -30,7 +30,7 @@ class AdminCategoryViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
 
 class ItemViewSet(ReadOnlyModelViewSet):
     queryset = models.Item.objects.all()
-    serializer_class = serializers.ItemSerializer
+    serializer_class = serializers.ItemGetSerializer
 
 
 class AdminItemViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,

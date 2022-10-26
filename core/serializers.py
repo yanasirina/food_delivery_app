@@ -13,3 +13,7 @@ class ItemSerializer(serializers.ModelSerializer):
     class Meta:
         model = models.Item
         fields = '__all__'
+
+
+class ItemGetSerializer(ItemSerializer):
+    category = CategorySerializer()
