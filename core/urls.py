@@ -5,7 +5,7 @@ from . import views
 
 urlpatterns = [
     path('create_category/', views.CreateCategory.as_view(), name='create_category'),
-    path('cat/<int:pk>/', views.UpdateDeleteCategory.as_view(), name='cat'),
+    path('category/<int:pk>/', views.UpdateDeleteCategory.as_view(), name='retrieve_category'),
 ]
 
 router = DefaultRouter()
