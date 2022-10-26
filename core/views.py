@@ -28,7 +28,14 @@ class AdminCategoryViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
     serializer_class = serializers.CategorySerializer
 
 
-class CreateCategory(generics.CreateAPIView):
-    permission_classes = (IsAdminUser, )
-    queryset = models.Category.objects.all()
-    serializer_class = serializers.CategorySerializer
+class ItemViewSet(ReadOnlyModelViewSet):
+    queryset = models.Item.objects.all()
+    serializer_class = serializers.ItemSerializer
+
+
+class AdminItemViewSet(mixins.CreateModelMixin, mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin, viewsets.GenericViewSet):
+    permission_classes = (IsAdminUser,)
+    queryset = models.Item.objects.all()
+    serializer_class = serializers.ItemSerializer
+

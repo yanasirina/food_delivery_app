@@ -10,8 +10,6 @@ class CategorySerializer(serializers.ModelSerializer):
 
 
 class ItemSerializer(serializers.ModelSerializer):
-    category = CategorySerializer()
-
     class Meta:
         model = models.Item
         fields = '__all__'
