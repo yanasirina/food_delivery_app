@@ -6,6 +6,8 @@ import telebot
 from decouple import config
 from datetime import datetime
 
+from bot.models import Courier
+
 
 class Command(BaseCommand):
     help = 'Пример загрузки данных через REST API'
@@ -20,16 +22,43 @@ class Command(BaseCommand):
 
         @bot.message_handler(commands=['start'])
         def start(message):
-            bot.reply_to(message=message, text=f'Твой ID {message.chat.id}.\n'
+            bot.reply_to(message=message, text=f'Твой ID {message.chat.id}\n'
                                                f'Сообщи его менеджеру и он тебя зарегистрирует')
 
         @bot.message_handler(commands=['start_day'])
         def start_day(message):
-            pass
+            telegram_id = message.chat.id
+            try:
+                courier = Courier.objects.get(telegram_id=telegram_id)
+                print(courier)
+                if not courier.is_able:
+                    courier.is_able = True
+                    courier.is_waiting_from = datetime.now()
+                    courier.save(update_fields=['is_able', 'is_waiting_from'])
+                    bot.reply_to(message=message, text=f'Хорошей тебе работы!\n'
+                                                   f'Когда устанешь напиши /end_day')
+                else:
+                    bot.reply_to(message=message, text='Ты уже работаешь')
+            except Exception:
+                bot.reply_to(message=message, text='Что-то пошло не так. Скорее всего, менеджер '
+                                                   'не успел зарегистрировать тебя в базе данных')
 
         @bot.message_handler(commands=['end_day'])
         def end_day(message):
-            pass
+            telegram_id = message.chat.id
+            try:
+                courier = Courier.objects.get(telegram_id=telegram_id)
+                if courier.is_able:
+                    courier.is_able = False
+                    courier.is_waiting_from = None
+                    courier.save(update_fields=['is_able', 'is_waiting_from'])
+                    bot.reply_to(message=message, text=f'Хорошей тебе отдыха!\n'
+                                                       f'Когда будешь готов к работе напиши /start_day')
+                else:
+                    bot.reply_to(message=message, text='Ты уже отдыхаешь')
+            except Exception:
+                bot.reply_to(message=message, text='Что-то пошло не так. Скорее всего, менеджер '
+                                                   'не успел зарегистрировать тебя в базе данных')
 
         @bot.message_handler(commands=['end_order'])
         def end_order(message):
