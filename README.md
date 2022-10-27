@@ -65,8 +65,34 @@ python3 manage.py runbot
 **Congrats!**<br>
 Now you can use the project!
 Here are commands for REST API:
-| Таблицы       | Это                | Круто |
+#### For all users:
+| name       |      type           | description |
 | ------------- |:------------------:| -----:|
-| столбец 3     | выровнен вправо    | $1600 |
-| столбец 2     | выровнен по центру |   $12 |
-| зебра-строки  | прикольные         |    $1 |
+| /auth/login/ | POST | sends a token to an existing user |
+| /auth/register/ | POST | signs up a new user and sends a token to them |
+| /core/categories/ | GET | shows categories of items |
+| /core/categories/{id}/ | GET | detail information about category |
+| /core/categories/{id}/items/ | GET | shows items in a chosen category |
+| /core/items/ | GET | shows all items |
+| /core/items/ | GET | detail information about item |
+
+#### For authenticated users:
+| name       |      type           | description |
+| ------------- |:------------------:| -----:|
+| /auth/user/ | GET | shows detail information about user |
+| /auth/user/ | PUT, PATCH | updates detail information about user |
+| /orders/user_finished_orders/ | GET | shows all user's finished orders |
+| /orders/user_finished_orders/{id} | GET | detail information about finished order |
+| /orders/user_orders/ | GET | shows all user's not finished orders |
+| /orders/user_orders/ | POST | creates a new order of user |
+| /orders/user_orders/{id} | GET | detail information about not finished order |
+| /orders/user_orders/{id} | PUT, PATCH | update detail information about not finished order |
+| /orders/user_orders/{id} | DELETE | delete not completed order |
+| /orders/user_orders/{id}/to_order/ | DELETE | marks order as completed,<br>sends an information about order to one of couriers |
+
+#### For admin users:
+| name       |      type           | description |
+| ------------- |:------------------:| -----:|
+| /auth/user_list/ | GET | shows all users |
+
+
