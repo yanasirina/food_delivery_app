@@ -97,9 +97,9 @@ Here are commands for REST API:
 | /core/admin_categories/ | POST | creates a new category |
 | /core/admin_categories/{id} | PUT, PATCH | updates a category |
 | /core/admin_categories/ | DELETE | deletes a category |
-| /core/admin_items/ | GET | shows all items (including items out of stock) |
+| /core/admin_items/ | GET | shows all items<br>(including items out of stock) |
 | /core/admin_items/ | POST | creates a new item |
-| /core/admin_items/{id} | GET | detail information about item (including items out of stock) |
+| /core/admin_items/{id} | GET | detail information about item<br>(including items out of stock) |
 | /core/admin_items/ | PUT, PATCH | updates an item |
 | /core/admin_items/ | DELETE | deletes an item |
 | /core/admin_items/{id}/set_in_stock/ | PATCH | marks item as 'in stock' |
