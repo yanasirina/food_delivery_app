@@ -73,8 +73,8 @@ Here are commands for REST API:
 | /core/categories/ | GET | shows categories of items |
 | /core/categories/{id}/ | GET | detail information about category |
 | /core/categories/{id}/items/ | GET | shows items in a chosen category |
-| /core/items/ | GET | shows all items |
-| /core/items/ | GET | detail information about item |
+| /core/items/ | GET | shows all items (only items in stock) |
+| /core/items/{id} | GET | detail information about item (only items in stock) |
 
 #### For authenticated users:
 | name       |      type           | description |
@@ -88,11 +88,30 @@ Here are commands for REST API:
 | /orders/user_orders/{id} | GET | detail information about not finished order |
 | /orders/user_orders/{id} | PUT, PATCH | update detail information about not finished order |
 | /orders/user_orders/{id} | DELETE | delete not completed order |
-| /orders/user_orders/{id}/to_order/ | DELETE | marks order as completed,<br>sends an information about order to one of couriers |
+| /orders/user_orders/{id}/to_order/ | PATCH | marks order as completed,<br>sends an information about order to one of couriers |
 
 #### For admin users:
 | name       |      type           | description |
 | ------------- |:------------------:| -----:|
 | /auth/user_list/ | GET | shows all users |
+| /core/admin_categories/ | POST | creates a new category |
+| /core/admin_categories/{id} | PUT, PATCH | updates a category |
+| /core/admin_categories/ | DELETE | deletes a category |
+| /core/admin_items/ | GET | shows all items (including items out of stock) |
+| /core/admin_items/ | POST | creates a new item |
+| /core/admin_items/{id} | GET | detail information about item (including items out of stock) |
+| /core/admin_items/ | PUT, PATCH | updates an item |
+| /core/admin_items/ | DELETE | deletes an item |
+| /core/admin_items/{id}/set_in_stock/ | PATCH | marks item as 'in stock' |
+| /core/admin_items/{id}/unset_in_stock/ | PATCH | unmarks item as 'in stock' |
+| /employees/couriers/ | GET | shows all delivery men |
+| /employees/couriers/ | POST | registers a new delivery man |
+| /employees/couriers/{id} | GET | detail information about a delivery man |
+| /employees/couriers/{id} | PUT, PATCH | updates information about a delivery man |
+| /employees/couriers/{id} | DELETE | deletes a delivery man |
+| /orders/all_orders/ | GET | shows all orders |
+| /orders/all_orders/{id} | GET | shows detail information about an order |
+
+
 
 
